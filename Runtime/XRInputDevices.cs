@@ -17,88 +17,121 @@
         public static List<InputDevice> GetControllers()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Controller, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.LegacyController, devices);
+#endif
             return devices;
         }
 
         public static List<InputDevice> GetCameras()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Camera, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.Unknown, devices);
+#endif
             return devices;
         }
 
         public static List<InputDevice> GetEyeTrackings()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.EyeTracking, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.Unknown, devices);
+#endif
             return devices;
         }
 
         public static List<InputDevice> GetHandTrackings()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HandTracking, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.Unknown, devices);
+#endif
             return devices;
         }
 
         public static List<InputDevice> GetHeadMounteds()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeadMounted, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.Unknown, devices);
+#endif
             return devices;
         }
 
         public static List<InputDevice> GetHeldInHands()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.HeldInHand, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.Unknown, devices);
+#endif
             return devices;
         }
 
         public static List<InputDevice> GetLefts()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Left, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.LeftHanded, devices);
+#endif
             return devices;
         }
 
         public static List<InputDevice> GetRights()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Right, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.RightHanded, devices);
+#endif
             return devices;
         }
 
         public static List<InputDevice> GetSimulated6DOFs()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.Simulated6DOF, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.Unknown, devices);
+#endif
             return devices;
         }
 
         public static List<InputDevice> GetTrackedDevices()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.TrackedDevice, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.HardwareTracker, devices);
+#endif
             return devices;
         }
 
         public static List<InputDevice> GetTrackingReferences()
         {
             var devices = new List<InputDevice>();
+#if UNITY_2019_3_OR_NEWER
             InputDevices.GetDevicesWithCharacteristics(InputDeviceCharacteristics.TrackingReference, devices);
-
+#else
+            InputDevices.GetDevicesWithRole(InputDeviceRole.TrackingReference, devices);
+#endif
             return devices;
         }
         #endregion

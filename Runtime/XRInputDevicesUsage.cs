@@ -166,16 +166,22 @@
 
         public static bool GetSecondary2DAxisClick(InputDevice device)
         {
+#if UNITY_2019_3_OR_NEWER
             bool value;
-
             return device.TryGetFeatureValue(CommonUsages.secondary2DAxisClick, out value) && value;
+#else
+            return false;
+#endif
         }
 
         public static bool GetSecondary2DAxisTouch(InputDevice device)
         {
+#if UNITY_2019_3_OR_NEWER
             bool value;
-
             return device.TryGetFeatureValue(CommonUsages.secondary2DAxisTouch, out value) && value;
+#else
+            return false;
+#endif
         }
 
         public static bool IsTracked(InputDevice device)
