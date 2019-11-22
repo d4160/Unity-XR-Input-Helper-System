@@ -1,38 +1,30 @@
 ﻿namespace d4160.Systems.XRInput
 {
-  using UnityEngine;
-  using UnityEngine.XR;
+    using UnityEngine;
+    using UnityEngine.XR;
 
     [System.Serializable]
     public struct XRInputAction_Boolean
     {
         public XRInputUsages_Boolean usage;
         [Tooltip("Only for Trigger and Grip")]
-        public float pressThreshold; //= .85f;
+        public float _pressThreshold; //= .85f;
         [Tooltip("Only for Trigger and Grip")]
-        public float releaseThreshold;// = .25f;
+        public float _releaseThreshold;// = .25f;
 
         private InputDevice _inputDevice;
+        private bool _triggerState, _gripState;
 
         public InputDevice InputDevice { get => _inputDevice; set => _inputDevice = value; }
-
-        public XRInputAction_Boolean(InputDevice device, float pressThreshold = .85f, float releaseThreshold = .25f)
-        {
-            _inputDevice = device;
-
-            usage = default;
-            this.pressThreshold = pressThreshold;
-            this.releaseThreshold = releaseThreshold;
-        }
 
         public bool GetStateDown()
         {
             switch (usage)
             {
                 case XRInputUsages_Boolean.TriggerButton:
-                    return XRInputHelper.GetTriggerButtonDown(_inputDevice, pressThreshold);
+                    return XRInputHelper.GetTriggerButtonDown(_inputDevice, _pressThreshold, ref _triggerState);
                 case XRInputUsages_Boolean.GripButton:
-                    return XRInputHelper.GetGripButtonDown(_inputDevice, pressThreshold);
+                    return XRInputHelper.GetGripButtonDown(_inputDevice, _pressThreshold, ref _gripState);
                 case XRInputUsages_Boolean.MenuButton:
                     return XRInputHelper.GetMenuButtonDown(_inputDevice);
                 case XRInputUsages_Boolean.PrimaryButton:
@@ -61,9 +53,9 @@
             switch (usage)
             {
                 case XRInputUsages_Boolean.TriggerButton:
-                    return XRInputHelper.GetTriggerButtonUp(_inputDevice, pressThreshold);
+                    return XRInputHelper.GetTriggerButtonUp(_inputDevice, _pressThreshold, ref _triggerState);
                 case XRInputUsages_Boolean.GripButton:
-                    return XRInputHelper.GetGripButtonUp(_inputDevice, pressThreshold);
+                    return XRInputHelper.GetGripButtonUp(_inputDevice, _pressThreshold, ref _gripState);
                 case XRInputUsages_Boolean.MenuButton:
                     return XRInputHelper.GetMenuButtonUp(_inputDevice);
                 case XRInputUsages_Boolean.PrimaryButton:
@@ -92,29 +84,29 @@
             switch (usage)
             {
                 case XRInputUsages_Boolean.TriggerButton:
-                    return XRInputDevicesUsage.GetTriggerButton(_inputDevice);
+                    return XRInputHelper.GetTriggerButton(_inputDevice);
                 case XRInputUsages_Boolean.GripButton:
-                    return XRInputDevicesUsage.GetGripButton(_inputDevice);
+                    return XRInputHelper.GetGripButton(_inputDevice);
                 case XRInputUsages_Boolean.MenuButton:
-                    return XRInputDevicesUsage.GetMenuButton(_inputDevice);
+                    return XRInputHelper.GetMenuButton(_inputDevice);
                 case XRInputUsages_Boolean.PrimaryButton:
-                    return XRInputDevicesUsage.GetPrimaryButton(_inputDevice);
+                    return XRInputHelper.GetPrimaryButton(_inputDevice);
                 case XRInputUsages_Boolean.PrimaryTouch:
-                    return XRInputDevicesUsage.GetPrimaryTouch(_inputDevice);
+                    return XRInputHelper.GetPrimaryTouch(_inputDevice);
                 case XRInputUsages_Boolean.Primary2DAxisClick:
-                    return XRInputDevicesUsage.GetPrimary2DAxisClick(_inputDevice);
+                    return XRInputHelper.GetPrimary2DAxisClick(_inputDevice);
                 case XRInputUsages_Boolean.Primary2DAxisTouch:
-                    return XRInputDevicesUsage.GetPrimary2DAxisTouch(_inputDevice);
+                    return XRInputHelper.GetPrimary2DAxisTouch(_inputDevice);
                 case XRInputUsages_Boolean.SecondaryButton:
-                    return XRInputDevicesUsage.GetSecondaryButton(_inputDevice);
+                    return XRInputHelper.GetSecondaryButton(_inputDevice);
                 case XRInputUsages_Boolean.SecondaryTouch:
-                    return XRInputDevicesUsage.GetSecondaryTouch(_inputDevice);
+                    return XRInputHelper.GetSecondaryTouch(_inputDevice);
                 case XRInputUsages_Boolean.Secondary2DAxisClick:
-                    return XRInputDevicesUsage.GetSecondary2DAxisClick(_inputDevice);
+                    return XRInputHelper.GetSecondary2DAxisClick(_inputDevice);
                 case XRInputUsages_Boolean.Secondary2DAxisTouch:
-                    return XRInputDevicesUsage.GetSecondary2DAxisTouch(_inputDevice);
+                    return XRInputHelper.GetSecondary2DAxisTouch(_inputDevice);
                 default:
-                    return XRInputDevicesUsage.GetMenuButton(_inputDevice);
+                    return XRInputHelper.GetMenuButton(_inputDevice);
             }
         }
     }
@@ -128,25 +120,18 @@
 
         public InputDevice InputDevice { get => _inputDevice; set => _inputDevice = value; }
 
-        public XRInputAction_Single(InputDevice device)
-        {
-            _inputDevice = device;
-
-            usage = default;
-        }
-
         public float GetAxis()
         {
             switch (usage)
             {
                 case XRInputUsages_Float.Grip:
-                    return XRInputDevicesUsage.GetGrip(_inputDevice);
+                    return XRInputHelper.GetGrip(_inputDevice);
                 case XRInputUsages_Float.Trigger:
-                    return XRInputDevicesUsage.GetTrigger(_inputDevice);
+                    return XRInputHelper.GetTrigger(_inputDevice);
                 case XRInputUsages_Float.BatteryLevel:
-                    return XRInputDevicesUsage.GetBatteryLevel(_inputDevice);
+                    return XRInputHelper.GetBatteryLevel(_inputDevice);
                 default:
-                    return XRInputDevicesUsage.GetGrip(_inputDevice);
+                    return XRInputHelper.GetGrip(_inputDevice);
             }
         }
     }
@@ -160,23 +145,16 @@
 
         public InputDevice InputDevice { get => _inputDevice; set => _inputDevice = value; }
 
-        public XRInputAction_Vector2(InputDevice device)
-        {
-            _inputDevice = device;
-
-            usage = default;
-        }
-
-        public Vector2 GetState()
+        public Vector2 Get2DAxis()
         {
             switch (usage)
             {
                 case XRInputUsages_Vector2.Primary2DAxis:
-                    return XRInputDevicesUsage.GetPrimary2DAxis(_inputDevice);
+                    return XRInputHelper.GetPrimary2DAxis(_inputDevice);
                 case XRInputUsages_Vector2.Secondary2DAxis:
-                    return XRInputDevicesUsage.GetSecondary2DAxis(_inputDevice);
+                    return XRInputHelper.GetSecondary2DAxis(_inputDevice);
                 default:
-                    return XRInputDevicesUsage.GetPrimary2DAxis(_inputDevice);
+                    return XRInputHelper.GetPrimary2DAxis(_inputDevice);
             }
         }
     }
@@ -185,25 +163,16 @@
     public struct XRInputAction_Haptics
     {
         public XRInputUsages_Haptics usage;
-        public float amplitude;
-        public float duration;
+        public float amplitude; // .5f
+        public float duration; // 1f
 
         private InputDevice _inputDevice;
 
         public InputDevice InputDevice { get => _inputDevice; set => _inputDevice = value; }
 
-        public XRInputAction_Haptics(InputDevice device, float amplitude = .5f, float duration = 1.0f)
-        {
-            _inputDevice = device;
-
-            usage = default;
-            this.amplitude = amplitude;
-            this.duration = duration;
-        }
-
         public void Execute()
         {
-            XRInputDevicesUsage.SendHapticImpulse(_inputDevice, amplitude, duration);
+            XRInputHelper.SendHapticImpulse(_inputDevice, amplitude, duration);
         }
     }
 
@@ -221,32 +190,32 @@
 
         public Vector3 GetVelocity()
         {
-            return XRInputDevicesUsage.GetDeviceVelocity(_inputDevice);
+            return XRInputHelper.GetDeviceVelocity(_inputDevice);
         }
 
         public Vector3 GetAngularVelocity()
         {
-            return XRInputDevicesUsage.GetDeviceAngularVelocity(_inputDevice);
+            return XRInputHelper.GetDeviceAngularVelocity(_inputDevice);
         }
 
         public Vector3 GetAcceleration()
         {
-            return XRInputDevicesUsage.GetDeviceAcceleration(_inputDevice);
+            return XRInputHelper.GetDeviceAcceleration(_inputDevice);
         }
 
         public Vector3 GetAngularAcceleration()
         {
-            return XRInputDevicesUsage.GetDeviceAngularAcceleration(_inputDevice);
+            return XRInputHelper.GetDeviceAngularAcceleration(_inputDevice);
         }
 
         public Vector3 GetPosition()
         {
-            return XRInputDevicesUsage.GetDevicePosition(_inputDevice);
+            return XRInputHelper.GetDevicePosition(_inputDevice);
         }
 
         public Quaternion GetRotation()
         {
-            return XRInputDevicesUsage.GetDeviceRotation(_inputDevice);
+            return XRInputHelper.GetDeviceRotation(_inputDevice);
         }
     }
 }

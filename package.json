@@ -1,7 +1,7 @@
 {
   "name": "unity-xr-input-helper-system",
   "displayName": "Unity XR Input Helper System",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "unity": "2018.3",
   "description": "Input helper classes and methods for XR devices using the UnityEngine.XR namespace.",
   "keywords": [
